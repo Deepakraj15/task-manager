@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Deepakraj15/task-manager/api/handlers"
 	"github.com/Deepakraj15/task-manager/internal/constants"
-	"github.com/Deepakraj15/task-manager/internal/handlers"
 	"github.com/Deepakraj15/task-manager/internal/logger"
 	"github.com/go-chi/chi/v5"
 )
