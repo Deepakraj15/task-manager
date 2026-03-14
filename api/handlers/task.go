@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/Deepakraj15/task-manager/internal/algo"
@@ -16,9 +15,17 @@ func TaskHandlers(router chi.Router) {
 
 		// to get all tasks
 		router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			fmt.Fprint(w, "hello it works")
-		})
+			w.Header().Set("Content-Type", "application/json")
 
+			tasks := models.GetSecondsWheel().GetAllPendingTasks()
+
+			err := json.NewEncoder(w).Encode(tasks)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+		})
 		router.Post("/submitTask", func(w http.ResponseWriter, r *http.Request) {
 			var task models.Task
 
@@ -28,17 +35,10 @@ func TaskHandlers(router chi.Router) {
 				return
 			}
 
-			fmt.Println(task.TName)
-			fmt.Println(task.TDescription)
-			fmt.Println(task.RunAt)
-
 			algo.SubmitTask(task)
 
 			w.WriteHeader(http.StatusOK)
 		})
 
-		router.Delete("/deleteTask", func(w http.ResponseWriter, r *http.Request) {
-			chi.URLParam(r, "taskId")
-		})
 	})
 }

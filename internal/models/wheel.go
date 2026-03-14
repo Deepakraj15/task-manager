@@ -86,3 +86,17 @@ func InitTimeWheels() {
 	seconds.Next = minutes
 	minutes.Next = hours
 }
+
+func (tw *TimeWheel) GetAllPendingTasks() []*Task {
+	var tasks []*Task
+
+	for _, slot := range tw.Slots {
+		tasks = append(tasks, slot.Tasks...)
+	}
+
+	if tw.Next != nil {
+		tasks = append(tasks, tw.Next.GetAllPendingTasks()...)
+	}
+
+	return tasks
+}
