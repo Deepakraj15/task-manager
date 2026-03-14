@@ -14,7 +14,7 @@ func TaskHandlers(router chi.Router) {
 	router.Route("/tasks", func(router chi.Router) {
 
 		// to get all tasks
-		router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/getPendingTasks", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
 
 			tasks := models.GetSecondsWheel().GetAllPendingTasks()
